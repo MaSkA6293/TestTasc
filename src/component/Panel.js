@@ -11,20 +11,23 @@ class Panel extends Component {
         }
     }
     render() {
-        return (<div style={{ border: this.state.border, width: this.props.width + 'px', height: this.props.height + 'px', visibility: (this.props.visible) ? 'visible' : 'hidden' }}></div>
+        return (<div style={{ border: this.state.border, width: this.props.width + 'px', height: this.props.height + 'px', visibility: (this.props.visible) ? 'visible' : 'hidden' }}> {this.props.children}
+        </div>
         );
     }
 }
 Panel.defaultProps = {
-    width: 10,
-    height: 10,
+    width: 100,
+    height: 100,
     visible: true,
+    children: '',
 };
 
 Panel.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     visible: PropTypes.bool,
+    children: PropTypes.any,
 
 }
 

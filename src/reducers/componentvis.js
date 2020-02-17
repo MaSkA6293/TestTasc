@@ -2,8 +2,8 @@ const contentt = [
     {
         type: 'Panel',
         props: {
-            width: 500,
-            height: 200,
+            width: 300,
+            height: 300,
             visible: true
         },
         content: [
@@ -14,7 +14,7 @@ const contentt = [
                     width: 100,
                     height: 50,
                     visible: true
-                }
+                },
             },
             {
                 type: 'Button',
@@ -23,25 +23,37 @@ const contentt = [
                     width: 100,
                     height: 50,
                     visible: true
-                }
+                },
             },
             {
-                type: 'Label',
+                type: 'Panel',
                 props: {
-                    caption: 'test',
+                    width: 100,
+                    height: 100,
                     visible: true
-                }
-            },
-            {
-                type: 'Label',
-                props: {
-                    caption: 'test',
-                    visible: true
-                }
-            },
-
-        ]
+                },
+                content: [
+                    {
+                        type: 'Button',
+                        props: {
+                            caption: 'Button',
+                            width: 100,
+                            height: 50,
+                            visible: true
+                        },
+                    },
+                    {
+                        type: 'Button',
+                        props: {
+                            caption: 'Button',
+                            width: 100,
+                            height: 50,
+                            visible: true
+                        },
+                    }]
+            }]
     },
+
     {
         type: 'Label',
         props: {

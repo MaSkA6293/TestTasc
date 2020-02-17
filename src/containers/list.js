@@ -29,6 +29,8 @@ class List extends Component {
     }
 
     rendermatreshka = (matreshka, childr, index) => {
+        console.log(matreshka);
+        console.log(childr);
         return <Contaner key={index} matreshka={matreshka} obj={childr} />;
 
     }
@@ -58,11 +60,6 @@ class List extends Component {
 }
 
 
-List.defaultProps = {
-    Panel: '',
-    Label: '',
-    Button: '',
-};
 
 
 

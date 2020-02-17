@@ -2,41 +2,39 @@ const contentt = [
     {
         type: 'Panel',
         props: {
-            width: 300,
-            height: 300,
+            width: 600,
+            height: 600,
             visible: true
         },
         content: [
             {
                 type: 'Button',
                 props: {
-                    caption: 'Button',
+                    caption: 'Button1',
                     width: 100,
                     height: 50,
                     visible: true
                 },
             },
             {
-                type: 'Button',
+                type: 'Label',
                 props: {
-                    caption: 'Button',
-                    width: 100,
-                    height: 50,
+                    caption: 'test1',
                     visible: true
                 },
             },
             {
                 type: 'Panel',
                 props: {
-                    width: 100,
-                    height: 100,
+                    width: 500,
+                    height: 500,
                     visible: true
                 },
                 content: [
                     {
                         type: 'Button',
                         props: {
-                            caption: 'Button',
+                            caption: 'Button2',
                             width: 100,
                             height: 50,
                             visible: true
@@ -45,26 +43,32 @@ const contentt = [
                     {
                         type: 'Button',
                         props: {
-                            caption: 'Button',
+                            caption: 'Button3',
                             width: 100,
                             height: 50,
                             visible: true
                         },
-                    }]
+                    }, {
+                        type: 'Label',
+                        props: {
+                            caption: 'test2',
+                            visible: true
+                        },
+                    },]
             }]
     },
 
     {
         type: 'Label',
         props: {
-            caption: 'test',
+            caption: 'test3',
             visible: true
         },
     },
     {
         type: 'Button',
         props: {
-            caption: 'Button',
+            caption: 'Button4',
             width: 100,
             height: 50,
             visible: true

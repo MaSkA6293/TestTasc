@@ -23,25 +23,21 @@ class Contaner extends Component {
         return <Button key={index} width={width} height={height} visible={visible} caption={caption} />
     }
 
-    rendermatreshka = (matreshka, childr, index) => {
 
-        let el = childr.map((item, index) => (
-            (item.type === 'Panel') && (typeof item.content === 'object') ? this.rendermatreshka(item, item.content) :
-                (item.type === 'Panel') ? this.renderPanel(item.props.width, item.props.height, item.props.visible, index) :
-                    (item.type === 'Label') ? this.renderLabel(item.props.caption, item.props.visible, index) :
-                        (item.type === 'Button') ? this.renderButton(item.props.width, item.props.height, item.props.visible, item.props.caption, index) : ''
-        ))
-        // let c = this.renderPanel(matreshka.props.width, matreshka.props.height, matreshka.props.visible, index)
-        return el;
+    rendermatreshka = (matreshka, childr, index) => {
+        console.log(matreshka);
+        console.log(childr);
+        return <Contaner key={index} matreshka={matreshka} obj={childr} />;
 
     }
     getcontent = (obj) => {
-        console.log(obj);
+        //console.log(obj);
         let element = obj.map((item, index) => (
-            (item.type === 'Panel') && (typeof item.content === 'object') ? (this.rendermatreshka(item, item.content, index)) :
-                (item.type === 'Panel') ? this.renderPanel(item.props.width, item.props.height, item.props.visible, index) :
-                    (item.type === 'Label') ? this.renderLabel(item.props.caption, item.props.visible, index) :
-                        (item.type === 'Button') ? this.renderButton(item.props.width, item.props.height, item.props.visible, item.props.caption, index) : ''
+            (typeof item.content === 'object') ? (this.rendermatreshka(item.props, item.content, index)) :
+                (item.type === 'Panel') && (typeof item.content === 'object') ? (this.rendermatreshka(item, item.content, index)) :
+                    (item.type === 'Panel') ? this.renderPanel(item.props.width, item.props.height, item.props.visible, index) :
+                        (item.type === 'Label') ? this.renderLabel(item.props.caption, item.props.visible, index) :
+                            (item.type === 'Button') ? this.renderButton(item.props.width, item.props.height, item.props.visible, item.props.caption, index) : ''
 
 
         ))

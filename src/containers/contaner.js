@@ -25,13 +25,12 @@ class Contaner extends Component {
 
 
     rendermatreshka = (matreshka, childr, index) => {
-        console.log(matreshka);
-        console.log(childr);
+
         return <Contaner key={index} matreshka={matreshka} obj={childr} />;
 
     }
     getcontent = (obj) => {
-        //console.log(obj);
+
         let element = obj.map((item, index) => (
             (typeof item.content === 'object') ? (this.rendermatreshka(item.props, item.content, index)) :
                 (item.type === 'Panel') && (typeof item.content === 'object') ? (this.rendermatreshka(item, item.content, index)) :

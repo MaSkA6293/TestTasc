@@ -2,62 +2,11 @@ const contentt = [
     {
         type: 'Panel',
         props: {
-            width: 600,
-            height: 600,
+            width: 400,
+            height: 200,
             visible: true
         },
-        content: [
-            {
-                type: 'Button',
-                props: {
-                    caption: 'Button1',
-                    width: 100,
-                    height: 50,
-                    visible: true
-                },
-            },
-            {
-                type: 'Label',
-                props: {
-                    caption: 'test1',
-                    visible: true
-                },
-            },
-            {
-                type: 'Panel',
-                props: {
-                    width: 500,
-                    height: 500,
-                    visible: true
-                },
-                content: [
-                    {
-                        type: 'Button',
-                        props: {
-                            caption: 'Button2',
-                            width: 100,
-                            height: 50,
-                            visible: true
-                        },
-                    },
-                    {
-                        type: 'Button',
-                        props: {
-                            caption: 'Button3',
-                            width: 100,
-                            height: 50,
-                            visible: true
-                        },
-                    }, {
-                        type: 'Label',
-                        props: {
-                            caption: 'test2',
-                            visible: true
-                        },
-                    },]
-            }]
     },
-
     {
         type: 'Label',
         props: {

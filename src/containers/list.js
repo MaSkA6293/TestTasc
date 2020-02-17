@@ -29,24 +29,18 @@ class List extends Component {
     }
 
     rendermatreshka = (matreshka, childr, index) => {
-        console.log(matreshka);
-        console.log(childr);
         return <Contaner key={index} matreshka={matreshka} obj={childr} />;
 
     }
 
 
     getcontent = (obj) => {
-        console.log(obj);
         let element = obj.map((item, index) => (
             (item.type === 'Panel') && (typeof item.content === 'object') ? (this.rendermatreshka(item.props, item.content, index)) :
                 (item.type === 'Panel') ? this.renderPanel(item.props.width, item.props.height, item.props.visible, index) :
                     (item.type === 'Label') ? this.renderLabel(item.props.caption, item.props.visible, index) :
                         (item.type === 'Button') ? this.renderButton(item.props.width, item.props.height, item.props.visible, item.props.caption, index) : ''
-
-
         ))
-
         return element;
     };
     render() {

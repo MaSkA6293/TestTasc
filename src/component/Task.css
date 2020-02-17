@@ -1,0 +1,15 @@
+.deploy{
+    background-color: aqua;
+    border: solid 3px;
+  min-height: 300px;
+}
+#btn{
+   margin-top: 30px;
+   width: 100%;
+   border: solid 1px black;
+}
+.Tasc {
+    background-color:#ebe5e5;
+    margin-top: 20px;
+   
+}

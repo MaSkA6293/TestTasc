@@ -30,6 +30,7 @@ class Contaner extends Component {
 
     }
     getcontent = (obj) => {
+        console.log('Ресует обжект', obj);
 
         let element = obj.map((item, index) => (
             (typeof item.content === 'object') ? (this.rendermatreshka(item.props, item.content, index)) :

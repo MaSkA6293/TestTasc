@@ -35,6 +35,7 @@ class List extends Component {
 
 
     getcontent = (obj) => {
+        console.log('ТЕСТИРУЕМ', obj);
         let element = obj.map((item, index) => (
             (item.type === 'Panel') && (typeof item.content === 'object') ? (this.rendermatreshka(item.props, item.content, index)) :
                 (item.type === 'Panel') ? this.renderPanel(item.props.width, item.props.height, item.props.visible, index) :
@@ -59,8 +60,7 @@ class List extends Component {
 
 function mapStateToProps(state) {
     return {
-        content: state.content,
-        users: state.users
+        content: state.content.content,
     }
 }
 

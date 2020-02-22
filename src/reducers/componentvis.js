@@ -29,9 +29,6 @@ const state = {
     ],
 };
 
-//let dataprimer = "{type:'panel',props:{width:100,height:100,visible:true}}";
-
-
 
 export default function (store = state, action) {
 

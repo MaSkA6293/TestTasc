@@ -1,9 +1,42 @@
 function correctvalue(obj) {
     let Flag = true;
-    console.log('переданный объект', obj)
     reccorrectvalue(obj);
     function reccorrectvalue(o) {
+        if (typeof o !== 'object') {
+
+            console.log('Не корректные данные')
+            return false
+        }
+        if (!(o.hasOwnProperty('type'))) {
+
+            console.log('Не корректные данные')
+            return false
+        }
         for (let props in o) {
+            if (o[props] === 'panel') {
+                if (o.props.hasOwnProperty('width') && o.props.hasOwnProperty('height') && o.props.hasOwnProperty('visible')) {
+                } else {
+                    console.log('Не хватает свойств у элемента панель')
+                    return false
+                }
+            }
+            if (o[props] === 'label') {
+                if (o.props.hasOwnProperty('caption') && o.props.hasOwnProperty('visible')) {
+                    //   console.log('Все ок')
+                } else {
+                    console.log('Не хватает свойств у элемента лейбл')
+                    return false
+                }
+            }
+            if (o[props] === 'button') {
+                if (o.props.hasOwnProperty('width') && o.props.hasOwnProperty('height') && o.props.hasOwnProperty('visible') && o.props.hasOwnProperty('caption')) {
+                    //    console.log('Все ок')
+                } else {
+                    console.log('Не хватает свойств у элемента button')
+                    return false
+                }
+            }
+
             switch (props || o[props]) {
                 case 'type':
                     (o[props] === 'panel') ? (Flag = true) : (o[props] === 'label') ? (Flag = true) : (o[props] === 'button') ? (Flag = true) : (Flag = false);

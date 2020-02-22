@@ -1,17 +1,18 @@
 function correctvalue(obj) {
     let Flag = true;
+
+    if (typeof obj !== 'object') {
+
+        console.log('Не корректные данные')
+        return false
+    }
+    if (!(obj.hasOwnProperty('type'))) {
+
+        console.log('Не корректные данные')
+        return false
+    }
     reccorrectvalue(obj);
     function reccorrectvalue(o) {
-        if (typeof o !== 'object') {
-
-            console.log('Не корректные данные')
-            return false
-        }
-        if (!(o.hasOwnProperty('type'))) {
-
-            console.log('Не корректные данные')
-            return false
-        }
         for (let props in o) {
             if (o[props] === 'panel') {
                 if (o.props.hasOwnProperty('width') && o.props.hasOwnProperty('height') && o.props.hasOwnProperty('visible')) {

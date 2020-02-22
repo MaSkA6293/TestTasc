@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Panel from '../component/Panel';
-import Label from '../component/Label';
-import Button from '../component/Button';
+import Panel from './Panel';
+import Label from './Label';
+import Button from './Button';
 
 
 class Contaner extends Component {
@@ -30,15 +30,14 @@ class Contaner extends Component {
 
     }
     getcontent = (obj) => {
-        console.log('Ресует обжект', obj);
+        //console.log('Ресует обжект', obj);
 
         let element = obj.map((item, index) => (
             (typeof item.content === 'object') ? (this.rendermatreshka(item.props, item.content, index)) :
-                (item.type === 'Panel') && (typeof item.content === 'object') ? (this.rendermatreshka(item, item.content, index)) :
-                    (item.type === 'Panel') ? this.renderPanel(item.props.width, item.props.height, item.props.visible, index) :
-                        (item.type === 'Label') ? this.renderLabel(item.props.caption, item.props.visible, index) :
-                            (item.type === 'Button') ? this.renderButton(item.props.width, item.props.height, item.props.visible, item.props.caption, index) : ''
-
+                (item.type === 'panel') && (typeof item.content === 'object') ? (this.rendermatreshka(item, item.content, index)) :
+                    (item.type === 'panel') ? this.renderPanel(item.props.width, item.props.height, item.props.visible, index) :
+                        (item.type === 'label') ? this.renderLabel(item.props.caption, item.props.visible, index) :
+                            (item.type === 'button') ? this.renderButton(item.props.width, item.props.height, item.props.visible, item.props.caption, index) : ''
 
         ))
 
@@ -46,11 +45,10 @@ class Contaner extends Component {
     };
 
     render() {
-
+        // Компонент сразу рендерит панель, т.к. по условию задачи только панель и область контент может иметь вложенные элементы
         return (<div>
             <Panel width={this.props.matreshka.width} height={this.props.matreshka.height} visible={this.props.matreshka.visible}>
                 {this.getcontent(this.props.obj)}
-
             </Panel>
 
 

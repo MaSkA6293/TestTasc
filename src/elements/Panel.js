@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-
-
 class Panel extends Component {
     constructor(props) {
         super(props)
@@ -16,6 +14,7 @@ class Panel extends Component {
         );
     }
 }
+
 Panel.defaultProps = {
     width: 100,
     height: 100,
@@ -28,7 +27,6 @@ Panel.propTypes = {
     height: PropTypes.number,
     visible: PropTypes.bool,
     children: PropTypes.any,
-
 }
 
 

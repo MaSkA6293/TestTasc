@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Task.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import List from '../containers/list';
+import List from '../elements/list';
 import { connect } from 'react-redux';
 import { select } from '../actions/index';
 import { bindActionCreators } from 'redux';
@@ -23,27 +23,6 @@ class Tasc extends Component {
         this.props.select(track, newvalue);
     };
     render() {
-        //let h = 'content[1].content[2].c.content[3].bbb[4]';
-        //   console.log('input h', h);
-        //  h = h.split('.');
-        // console.log('сплит h', h)
-
-        //     let replace = h.replace(/(\[?)(\d+)(\]?])/g, '.$2');
-        //  console.log('результат', replace)
-        //
-
-        //     h = replace.split('.');
-        //    console.log('сплит h', h)
-
-        //    h.splice(0, 1);
-
-        //    console.log('удалил элемент контент', h)
-
-
-        // let k = h.replace(/\[.*?\]/);
-
-
-        // console.log('out', k);
         return (
             <div className="Tasc container">
                 <form>
@@ -53,7 +32,6 @@ class Tasc extends Component {
                             <input type="text" className="form-control" onChange={this.handletrack} />
                         </div>
                         <div className="form-group col-md-5">
-
                             <label>Новое значение</label>
                             <input type="text" className="form-control" onChange={this.handlevalue} />
                         </div>

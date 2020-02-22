@@ -3,9 +3,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { select } from '../actions/index';
 import './list.css';
-import Panel from '../component/Panel';
-import Label from '../component/Label';
-import Button from '../component/Button';
+import Panel from './Panel';
+import Label from './Label';
+import Button from './Button';
 import Contaner from './contaner';
 
 
@@ -35,19 +35,17 @@ class List extends Component {
 
 
     getcontent = (obj) => {
-        console.log('ТЕСТИРУЕМ', obj);
         let element = obj.map((item, index) => (
-            (item.type === 'Panel') && (typeof item.content === 'object') ? (this.rendermatreshka(item.props, item.content, index)) :
-                (item.type === 'Panel') ? this.renderPanel(item.props.width, item.props.height, item.props.visible, index) :
-                    (item.type === 'Label') ? this.renderLabel(item.props.caption, item.props.visible, index) :
-                        (item.type === 'Button') ? this.renderButton(item.props.width, item.props.height, item.props.visible, item.props.caption, index) : ''
+            (item.type === 'panel') && (typeof item.content === 'object') ? (this.rendermatreshka(item.props, item.content, index)) :
+                (item.type === 'panel') ? this.renderPanel(item.props.width, item.props.height, item.props.visible, index) :
+                    (item.type === 'label') ? this.renderLabel(item.props.caption, item.props.visible, index) :
+                        (item.type === 'button') ? this.renderButton(item.props.width, item.props.height, item.props.visible, item.props.caption, index) : ''
         ))
         return element;
     };
     render() {
-
+        // компонент вызывает функцию и передает ей store
         return (<div>
-
             {this.getcontent(this.props.content)}
         </div >
         )

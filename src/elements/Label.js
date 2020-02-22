@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-
-
 class Label extends Component {
     constructor(props) {
         super(props)
@@ -21,7 +19,7 @@ Label.propTypes = {
 }
 
 Label.defaultProps = {
-    caption: 'Label element',
+    caption: 'Label element default',
     visible: true,
 };
 

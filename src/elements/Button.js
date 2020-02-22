@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-
-
 class Button extends Component {
     constructor(props) {
         super(props)
@@ -29,7 +27,6 @@ Button.defaultProps = {
     visible: true,
     caption: 'Default Button',
 };
-
 
 
 export default Button;

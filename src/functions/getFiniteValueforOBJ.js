@@ -1,6 +1,7 @@
+import copyobj from './copyobj';
 function getFiniteValueforOBJ(obj, a, parts) {
     let i = 0;
-    let newArray = JSON.parse(JSON.stringify(obj))
+    let newArray = copyobj(obj);
     getProp2(newArray, i);
     function getProp2(o, i) {
 

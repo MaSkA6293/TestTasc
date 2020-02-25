@@ -3,6 +3,7 @@ import correctvalue from './correctvalue'
 import getFiniteValue from './getFiniteValue'
 import getFiniteValueforOBJ from './getFiniteValueforOBJ'
 import getFiniteValueforContent from './getFiniteValueforContent'
+import copyobj from './copyobj';
 const gettrack_value = function (obj, track, value) {
     // убираю из пути внутри объкта [ ]
     let parts = track.replace(/(\[?)(\d+)(\]?])/g, '.$2');
@@ -60,7 +61,8 @@ const gettrack_value = function (obj, track, value) {
 
     // Если блок пройден значит путь существует, если нет то в консоль отобразится ошибка
     // создаем новую глубокую копию для исследования объекта
-    let copyArr = JSON.parse(JSON.stringify(obj));
+    let copyArr = copyobj(obj);
+
 
 
     for (let i = 0; i < parts.length; i++) {

@@ -38,14 +38,7 @@ export default function (store = state, action) {
             if (typeof trackinobject === 'undefined') {
                 return store
             } else {
-                if (action.track === '') {
-                    const f = [...trackinobject];
-                    let ddd = { ...store, content: f };
-                    return ddd;
-                }
-                const update = [...trackinobject];
-                let zzz = { ...store, content: update };
-                return zzz;
+                return { ...store, content: trackinobject };
             }
         default:
             return store;

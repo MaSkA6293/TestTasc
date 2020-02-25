@@ -1,7 +1,7 @@
 function getFiniteValueforOBJ(obj, a, parts) {
     let i = 0;
-
-    getProp2(obj, i);
+    let newArray = JSON.parse(JSON.stringify(obj))
+    getProp2(newArray, i);
     function getProp2(o, i) {
 
         for (let prop in o) {
@@ -18,6 +18,6 @@ function getFiniteValueforOBJ(obj, a, parts) {
             }
         }
     }
-    return obj
+    return newArray
 }
 export default getFiniteValueforOBJ;

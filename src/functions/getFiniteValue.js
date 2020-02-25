@@ -1,6 +1,7 @@
 function getFiniteValue(out, parts, value) {
     let i = 0;
-    getProp(out, i);
+    let newArray = JSON.parse(JSON.stringify(out))
+    getProp(newArray, i);
     function getProp(o, i) {
 
         for (let prop in o) {
@@ -48,6 +49,6 @@ function getFiniteValue(out, parts, value) {
             }
         }
     }
-    return out;
+    return newArray;
 }
 export default getFiniteValue;

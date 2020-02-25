@@ -1,5 +1,5 @@
 //import correctvalue from './correctvalue'
-import correctvalue2 from './correctvalue copy'
+import correctvalue from './correctvalue'
 import getFiniteValue from './getFiniteValue'
 import getFiniteValueforOBJ from './getFiniteValueforOBJ'
 import getFiniteValueforContent from './getFiniteValueforContent'
@@ -16,10 +16,11 @@ const gettrack_value = function (obj, track, value) {
         parts.splice(0, 1);
     }
     // Переменная для использования копии объекта в качестве исследовании корректности пути
-    let trackinobject = obj.slice();
+    //   let trackinobject = obj.slice();
+
 
     // Переменная для использования копии объекта
-    let out = obj.slice();
+    //  let out = obj.slice();
 
     // если хотим добавить прямо в объект новый элемент
     if ((track === '' && value) || (parts[parts.length - 1] === 'content')) {
@@ -39,19 +40,19 @@ const gettrack_value = function (obj, track, value) {
             let strtoJSONforcontent = JSON.parse(z);
             // Проверка на соотвествие разрешенным типам и свойствам данных
             // функция вернет флаг, если флаг укажет false значит добавляемый объект не корректен
-            const result = correctvalue2(strtoJSONforcontent);
+            const result = correctvalue(strtoJSONforcontent);
             if (result === false) {
                 return
             }
             // Переменная добавляет content [ ] в JSON 
             if (track === '' && value) {
-                let gtr = [...out, strtoJSONforcontent];
-                return gtr;
+                let addNewObj = [...obj, strtoJSONforcontent];
+                return addNewObj;
             }
             else {
-                let ffff = getFiniteValueforContent(out, strtoJSONforcontent, parts);
+                let addNewObjinObj = getFiniteValueforContent(obj, strtoJSONforcontent, parts);
 
-                return ffff
+                return addNewObjinObj
             }
         }
         catch (err) {
@@ -63,15 +64,19 @@ const gettrack_value = function (obj, track, value) {
 
 
     // Если блок пройден значит путь существует, если нет то в консоль отобразится ошибка
+    // создаем новую глубокую копию для исследования объекта
+    let copyArr = JSON.parse(JSON.stringify(obj));
+
+
     for (let i = 0; i < parts.length; i++) {
-        if (trackinobject[parts[i]] === undefined) {
+        if (copyArr[parts[i]] === undefined) {
             return console.log('Объект не имеет такой путь');
         } else {
-            trackinobject = trackinobject[parts[i]]
+            copyArr = copyArr[parts[i]]
         }
     };
 
-    if (trackinobject.type === 'panel' && value) {
+    if (copyArr.type === 'panel' && value) {
 
 
         // если конечный путь в переданном треке панель то выполнится эта ветка
@@ -91,17 +96,17 @@ const gettrack_value = function (obj, track, value) {
             let strtoJSON = JSON.parse(k);
             // Проверка на соотвествие разрешенным типам и свойствам данных
             // функция вернет флаг, если флаг укажет false значит добавляемый объект не корректен
-            const result = correctvalue2(strtoJSON);
+            const result = correctvalue(strtoJSON);
             if (result === false) {
                 return
             }
             // Переменная добавляет content [ ] в JSON 
             const addcontenttoobject = JSON.parse('{"content":[' + k + ']}');
 
-            const huk2 = getFiniteValueforOBJ(out, addcontenttoobject.content, parts);
+            const addinPanel = getFiniteValueforOBJ(obj, addcontenttoobject.content, parts);
 
 
-            return huk2;
+            return addinPanel;
 
         }
         catch (err) {
@@ -111,8 +116,8 @@ const gettrack_value = function (obj, track, value) {
     else {
         // если конечный путь в переданном треке не панель,
         // а значит мы хотим просто изменить значение то выполнится эта ветка
-        const huk = getFiniteValue(out, parts, value);
-        return huk;
+        const changeValue = getFiniteValue(obj, parts, value);
+        return changeValue;
     }
 
 };

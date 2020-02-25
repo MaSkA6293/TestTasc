@@ -15,12 +15,7 @@ const gettrack_value = function (obj, track, value) {
     if (parts.length > 1 && parts[0] === 'content') {
         parts.splice(0, 1);
     }
-    // Переменная для использования копии объекта в качестве исследовании корректности пути
-    //   let trackinobject = obj.slice();
 
-
-    // Переменная для использования копии объекта
-    //  let out = obj.slice();
 
     // если хотим добавить прямо в объект новый элемент
     if ((track === '' && value) || (parts[parts.length - 1] === 'content')) {

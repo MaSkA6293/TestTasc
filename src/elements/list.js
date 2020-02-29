@@ -1,60 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { select } from '../actions/index';
-import './list.css';
 import Panel from './Panel';
 import Label from './Label';
 import Button from './Button';
 import Contaner from './contaner';
+import PropTypes from 'prop-types';
 
+const List = ({ content }) => {
+    const renderPanel = (width, height, visible, index) => <Panel key={index} width={width} height={height} visible={visible} />
 
-class List extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-        }
-    };
+    const renderLabel = (caption, visible, index) => <Label key={index} caption={caption} visible={visible} />
 
-    renderPanel = (width, height, visible, index) => {
-        return <Panel key={index} width={width} height={height} visible={visible} />
-    }
-    renderLabel = (caption, visible, index) => {
+    const renderButton = (width, height, visible, caption, index) => <Button key={index} width={width} height={height} visible={visible} caption={caption} />
 
-        return <Label key={index} caption={caption} visible={visible} />
-    }
-    renderButton = (width, height, visible, caption, index) => {
+    const rendermatreshka = (matreshka, childr, index) => <Contaner key={index} matreshka={matreshka} obj={childr} />
 
-        return <Button key={index} width={width} height={height} visible={visible} caption={caption} />
-    }
-
-    rendermatreshka = (matreshka, childr, index) => {
-        return <Contaner key={index} matreshka={matreshka} obj={childr} />;
-
-    }
-
-
-    getcontent = (obj) => {
+    const getcontent = (obj) => {
         let element = obj.map((item, index) => (
-            (item.type === 'panel') && (typeof item.content === 'object') ? (this.rendermatreshka(item.props, item.content, index)) :
-                (item.type === 'panel') ? this.renderPanel(item.props.width, item.props.height, item.props.visible, index) :
-                    (item.type === 'label') ? this.renderLabel(item.props.caption, item.props.visible, index) :
-                        (item.type === 'button') ? this.renderButton(item.props.width, item.props.height, item.props.visible, item.props.caption, index) : ''
+            (item.type === 'panel') && (typeof item.content === 'object') ? (rendermatreshka(item.props, item.content, index)) :
+                (item.type === 'panel') ? renderPanel(item.props.width, item.props.height, item.props.visible, index) :
+                    (item.type === 'label') ? renderLabel(item.props.caption, item.props.visible, index) :
+                        (item.type === 'button') ? renderButton(item.props.width, item.props.height, item.props.visible, item.props.caption, index) : ''
         ))
         return element;
     };
-    render() {
-        // компонент вызывает функцию и передает ей store
-        return (<div>
-            {this.getcontent(this.props.content)}
-        </div >
-        )
-    }
+
+    return <div>{getcontent(content)}</div >
 }
-
-
-
-
 
 function mapStateToProps(state) {
     return {
@@ -62,10 +36,10 @@ function mapStateToProps(state) {
     }
 }
 
-function mathDispathToProps(dispatch) {
-    return bindActionCreators({
-        select: select
-    }, dispatch)
+const mathDispathToProps = (dispatch) => bindActionCreators({ select: select }, dispatch)
+
+List.propTypes = {
+    content: PropTypes.array.isRequired,
 }
 
 export default connect(mapStateToProps, mathDispathToProps)(List);

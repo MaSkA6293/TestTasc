@@ -18,7 +18,7 @@ function correctvalue(obj) {
                 if (o.props.hasOwnProperty('width') && o.props.hasOwnProperty('height') && o.props.hasOwnProperty('visible')) {
                 } else {
                     console.log('Не хватает свойств у элемента панель')
-                    return false
+                    Flag = false
                 }
             }
             if (o[props] === 'label') {
@@ -26,7 +26,7 @@ function correctvalue(obj) {
                     //   console.log('Все ок')
                 } else {
                     console.log('Не хватает свойств у элемента лейбл')
-                    return false
+                    Flag = false
                 }
             }
             if (o[props] === 'button') {
@@ -34,7 +34,7 @@ function correctvalue(obj) {
                     //    console.log('Все ок')
                 } else {
                     console.log('Не хватает свойств у элемента button')
-                    return false
+                    Flag = false
                 }
             }
 
@@ -50,18 +50,21 @@ function correctvalue(obj) {
                 case 'width':
                     if (typeof o[props] !== 'number') {
                         console.log('Ошибка в свойстве, ожидается number')
+
                         Flag = false;
                     }
                     break;
                 case 'height':
                     if (typeof o[props] !== 'number') {
                         console.log('Ошибка в свойстве, ожидается number')
+
                         Flag = false;
                     }
                     break;
                 case 'visible':
                     if (typeof o[props] !== 'boolean') {
                         console.log('Ошибка в свойстве, ожидается boolean')
+
                         Flag = false;
                     }
                     break;
@@ -70,6 +73,7 @@ function correctvalue(obj) {
                 case 'caption':
                     if (typeof o[props] !== 'string') {
                         console.log('Ошибка в свойстве, ожидается string')
+
                         Flag = false;
                     }
                     break;
@@ -88,6 +92,11 @@ function correctvalue(obj) {
                 reccorrectvalue(o[props]);
             }
         }
+    }
+    if (Flag === false) {
+        return Flag;
+    } else {
+        return true
     }
 
 }

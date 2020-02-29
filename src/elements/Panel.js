@@ -1,18 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class Panel extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            border: '3px solid black',
-        }
-    }
-    render() {
-        return (<div style={{ border: this.state.border, width: this.props.width + 'px', height: this.props.height + 'px', visibility: (this.props.visible) ? 'visible' : 'hidden' }}> {this.props.children}
-        </div>
-        );
-    }
+const Panel = ({ width, height, visible, children }) => {
+
+    return (<div style={{ border: '3px solid black', width: width + 'px', height: height + 'px', visibility: visible ? 'visible' : 'hidden' }}> {children}
+    </div>
+    )
 }
 
 Panel.defaultProps = {
@@ -28,6 +21,5 @@ Panel.propTypes = {
     visible: PropTypes.bool,
     children: PropTypes.any,
 }
-
 
 export default Panel;

@@ -1,9 +1,12 @@
 //import correctvalue from './correctvalue'
 import correctvalue from './correctvalue'
-import getFiniteValue from './getFiniteValue'
+//import getFiniteValue from './getFiniteValue'
 import getFiniteValueforOBJ from './getFiniteValueforOBJ'
-import getFiniteValueforContent from './getFiniteValueforContent'
-import copyobj from './copyobj';
+//import getFiniteValueforContent from './getFiniteValueforContent'
+//import copyobj from './copyobj';
+//import getCopy from './getcopyobj';
+import changeVal from './ChangeVal';
+//import ChangevalNomap from './ChangevalNomap';
 const gettrack_value = function (obj, track, value) {
     // убираю из пути внутри объкта [ ]
     let parts = track.replace(/(\[?)(\d+)(\]?])/g, '.$2');
@@ -16,6 +19,7 @@ const gettrack_value = function (obj, track, value) {
     if (parts.length > 1 && parts[0] === 'content') {
         parts.splice(0, 1);
     }
+
 
 
     // если хотим добавить прямо в объект новый элемент
@@ -38,21 +42,27 @@ const gettrack_value = function (obj, track, value) {
             // функция вернет флаг, если флаг укажет false значит добавляемый объект не корректен
             const result = correctvalue(strtoJSONforcontent);
             if (result === false) {
-                return
+                console.log('Не корректные данные в поле Новое значение')
+                return undefined
             }
             // Переменная добавляет content [ ] в JSON 
+
             if (track === '' && value) {
-                let addNewObj = [...obj, strtoJSONforcontent];
+                let addNewObj = {
+                    ...obj, content: [...obj.content, strtoJSONforcontent]
+                }
+
                 return addNewObj;
             }
             else {
-                let addNewObjinObj = getFiniteValueforContent(obj, strtoJSONforcontent, parts);
+                //     let addNewObjinObj = getFiniteValueforContent(obj, strtoJSONforcontent, parts);
 
-                return addNewObjinObj
+                //   return addNewObjinObj
             }
         }
         catch (err) {
             console.log('Ошибка в свойствах объекта')
+            return undefined;
         }
     }
 
@@ -61,19 +71,42 @@ const gettrack_value = function (obj, track, value) {
 
     // Если блок пройден значит путь существует, если нет то в консоль отобразится ошибка
     // создаем новую глубокую копию для исследования объекта
-    let copyArr = copyobj(obj);
-
-
-
-    for (let i = 0; i < parts.length; i++) {
-        if (copyArr[parts[i]] === undefined) {
-            return console.log('Объект не имеет такой путь');
-        } else {
-            copyArr = copyArr[parts[i]]
+    // let copyArr = copyobj(obj.content);
+    function ifTrack(obj, parts) {
+        let copy = [...obj.content]
+        for (let i = 0; i < parts.length; i++) {
+            if (copy[parts[i]] === undefined) {
+                return console.log('Объект не имеет такой путь');
+            }
+            else copy = { ...copy[parts[i]] }
         }
-    };
+        return copy
+    }
+    // исследуем объект
+    let copy = ifTrack(obj, parts)
+    if (copy === undefined) {
+        return copy
+    }
 
-    if (copyArr.type === 'panel' && value) {
+    //let G = [...copyArr];
+
+
+    // let G = getCopy(obj);
+    // let G = changeVal(obj, parts, value)
+    // изменил  копию
+    // let K = G.content[0].props.width = 9000000
+    //изменил и копию и объект
+    // let K2 = G.content[2].props.width = 9000
+    // console.log(K);
+    // console.log(K2);
+
+
+
+
+
+
+
+    if (copy.type === 'panel' && value) {
 
 
         // если конечный путь в переданном треке панель то выполнится эта ветка
@@ -113,7 +146,7 @@ const gettrack_value = function (obj, track, value) {
     else {
         // если конечный путь в переданном треке не панель,
         // а значит мы хотим просто изменить значение то выполнится эта ветка
-        const changeValue = getFiniteValue(obj, parts, value);
+        const changeValue = changeVal(obj, parts, value, 0);
         return changeValue;
     }
 

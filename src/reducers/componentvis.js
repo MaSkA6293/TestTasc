@@ -1,4 +1,5 @@
-import gettrack_value from '../functions/function';
+import gettrack_value from '../functions/function copy';
+//           content[0].content[0].content[1]
 const state = {
     content: [
         {
@@ -8,44 +9,48 @@ const state = {
                 height: 200,
                 visible: true
             },
-            content: [{
-                type: 'panel',
-                props: {
-                    width: 500,
-                    height: 200,
-                    visible: true
-                },
-                content: [{
+            content: [
+                {
                     type: 'panel',
                     props: {
-                        width: 700,
+                        width: 400,
                         height: 200,
                         visible: true
-                    }
-                },
-                {
-                    type: 'button',
-                    props: {
-                        caption: 'Button5',
-                        width: 100,
-                        height: 50,
-                        visible: true
-                    }
-                }]
+                    },
 
-            },
-            {
-                type: 'button',
-                props: {
-                    caption: 'Button6',
-                    width: 100,
-                    height: 50,
-                    visible: true
+                    content: [
+                        {
+                            type: 'panel',
+                            props: {
+                                width: 400,
+                                height: 200,
+                                visible: true
+                            }
+                        },
+                        {
+                            type: 'label',
+                            props: {
+                                caption: 'test3',
+                                visible: true
+                            }
+                        }
+                    ]
+
+
+
+
+
+
                 }
-            }]
+            ]
+        }
 
-        },
-        {
+
+
+
+
+
+        , {
             type: 'label',
             props: {
                 caption: 'test3',
@@ -55,12 +60,13 @@ const state = {
         {
             type: 'button',
             props: {
-                caption: 'Button4',
+                caption: 'Button6',
                 width: 100,
                 height: 50,
                 visible: true
             }
-        }
+        },
+
     ],
 };
 

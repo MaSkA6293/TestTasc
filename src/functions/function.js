@@ -1,7 +1,7 @@
 //import correctvalue from './correctvalue'
 import correctvalue from './correctvalue'
 //import getFiniteValue from './getFiniteValue'
-import getFiniteValueforOBJ from './getFiniteValueforOBJ'
+//import getFiniteValueforOBJ from './getFiniteValueforOBJ'
 //import getFiniteValueforContent from './getFiniteValueforContent'
 //import copyobj from './copyobj';
 //import getCopy from './getcopyobj';
@@ -22,8 +22,11 @@ const gettrack_value = function (obj, track, value) {
 
 
 
-    // если хотим добавить прямо в объект новый элемент
-    if ((track === '' && value) || (parts[parts.length - 1] === 'content')) {
+
+
+
+    // если хотим добавить в content новый элемент
+    if ((track === '' && value)) {
         let z = value;
         try {
             z = z.replace('type', '"type"');
@@ -34,7 +37,6 @@ const gettrack_value = function (obj, track, value) {
             z = z.replace('caption', '"caption"');
             const regex1 = /'/g;
             z = z.replace(regex1, '"');
-
 
             // Переменная для контроля корректности данных
             let strtoJSONforcontent = JSON.parse(z);
@@ -51,7 +53,6 @@ const gettrack_value = function (obj, track, value) {
                 let addNewObj = {
                     ...obj, content: [...obj.content, strtoJSONforcontent]
                 }
-
                 return addNewObj;
             }
             else {
@@ -70,8 +71,7 @@ const gettrack_value = function (obj, track, value) {
 
 
     // Если блок пройден значит путь существует, если нет то в консоль отобразится ошибка
-    // создаем новую глубокую копию для исследования объекта
-    // let copyArr = copyobj(obj.content);
+
     function ifTrack(obj, parts) {
         let copy = [...obj.content]
         for (let i = 0; i < parts.length; i++) {
@@ -133,7 +133,7 @@ const gettrack_value = function (obj, track, value) {
             // Переменная добавляет content [ ] в JSON 
             const addcontenttoobject = JSON.parse('{"content":[' + k + ']}');
 
-            const addinPanel = getFiniteValueforOBJ(obj, addcontenttoobject.content, parts);
+            const addinPanel = changeVal(obj, parts, addcontenttoobject.content, 0);
 
 
             return addinPanel;

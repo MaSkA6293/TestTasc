@@ -1,42 +1,57 @@
+
 export default function getCopy(obj, parts, value, i) {
     function getinclud(objectIN, parts, i) {
         i++
+        if (i === parts.length) {
+            // значит панель!
+            if (objectIN.hasOwnProperty('content')) {
+                return { ...objectIN, content: [...objectIN.content, value] }
+            }
+            else { return { ...objectIN, content: [value] } }
+
+        }
         if (i < parts.length) {
             for (let key in objectIN) {
-                if (key === parts[i] && parts[i] === 'props') {
-                    //копия уровня пропс
-                    //        let itemObj = {
-                    //                ...objectIN, [parts[i]]: { ...objectIN.props }
-                    // ...objectIN, [parts[i]]: { ...objectIN.props }
-                    //           }
+                //   if (typeof parts[parts.length - 1] === number && i === parts.length - 2) {
 
-                    let B = getinclud(objectIN[parts[i]], parts, i)
-                    //let B = getinclud(itemObj[parts[i]], parts, i)
+                //          return { ...objectIN, content: [...value] }
+                //копия уровня пропс
+                //        let itemObj = {
+                //                ...objectIN, [parts[i]]: { ...objectIN.props }
+                // ...objectIN, [parts[i]]: { ...objectIN.props }
+                //           }
 
-                    if (B !== false && B !== undefined) {
-                        return { ...objectIN, [parts[i]]: B }
-                    }
-                    else {
-                        console.log('Ошибка редактирования свойсв элемента')
-                        return undefined
-                    }
-                }
+                //  let B = getinclud(objectIN[parts[i]], parts, i)
+                //let B = getinclud(itemObj[parts[i]], parts, i)
+
+                //   if (B !== false) {
+                //  return { ...objectIN, [parts[i]]: B }
+                //  }
+                //   else {
+                //       return B
+                //    }
+                //      }
 
                 if (key === parts[i] && parts[i] === 'content') {
                     //   let itemObj = {
                     //          ...objectIN, [parts[i]]: [...objectIN.content]
                     //      }
                     //копия уровень контент
+                    if (parts[i] === parts[parts.length - 1] && i === parts.length - 1) {
+                        return { ...objectIN, content: [...objectIN.content, value] }
+                    }
+                    // if (i === parts.length-2 && typeof +parts[parts.length-1] === 'number'){
+                    //     return { ...objectIN, content:[...objectIN.content,]}
+                    // }
                     i++
                     let B = getCopy(objectIN, parts, value, i)
 
-                    if (B !== false && B !== undefined) {
+                    if (B !== false) {
                         i--
                         return { ...objectIN, [parts[i]]: B.content }
                     }
                     else {
-                        console.log('Ошибка редактирования свойсв элемента')
-                        return undefined
+                        return B
                     }
                 }
 
@@ -162,6 +177,9 @@ export default function getCopy(obj, parts, value, i) {
 
 
     //let i = 0;
+    // if (parts.length === 1) {
+    //     return { ...obj, content: [...obj.content, obj.content[parts[i]], value] }
+    // }
     let itemObj = {
         ...obj, content: obj.content.map((u, key) => {
             if (key === +parts[i]) {

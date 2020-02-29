@@ -1,4 +1,4 @@
-import gettrack_value from '../functions/function copy';
+import gettrack_value from '../functions/function';
 //           content[0].content[0].content[1]
 const state = {
     content: [
@@ -44,11 +44,6 @@ const state = {
                 }
             ]
         }
-
-
-
-
-
 
         , {
             type: 'label',

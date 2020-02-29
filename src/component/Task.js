@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import { select } from '../actions/index';
 import { bindActionCreators } from 'redux';
 
-
-
 const Tasc = ({ select }) => {
     const [track, setTrack] = useState('');
     const [newvalue, setNewvalue] = useState('');

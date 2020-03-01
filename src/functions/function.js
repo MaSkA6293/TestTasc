@@ -49,7 +49,7 @@ const gettrack_value = function (obj, track, value) {
 
 
         if (((parts[parts.length - 1] === 'content') && value) || ((copy.type === 'panel') && value)) {
-            // если конечный путь в переданном треке content то выполнится эта ветка
+            // если конечный путь в переданном треке content то выполнится эта ветка или тип объекта панель
             let k = value;
             try {
                 k = k.replace('type', '"type"');

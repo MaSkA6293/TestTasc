@@ -8,44 +8,9 @@ const state = {
                 width: 400,
                 height: 200,
                 visible: true
-            },
-            content: [
-                {
-                    type: 'panel',
-                    props: {
-                        width: 400,
-                        height: 200,
-                        visible: true
-                    },
-
-                    content: [
-                        {
-                            type: 'panel',
-                            props: {
-                                width: 400,
-                                height: 200,
-                                visible: true
-                            }
-                        },
-                        {
-                            type: 'label',
-                            props: {
-                                caption: 'test3',
-                                visible: true
-                            }
-                        }
-                    ]
-
-
-
-
-
-
-                }
-            ]
-        }
-
-        , {
+            }
+        },
+        {
             type: 'label',
             props: {
                 caption: 'test3',

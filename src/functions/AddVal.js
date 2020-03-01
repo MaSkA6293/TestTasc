@@ -22,18 +22,20 @@ export default function getCopy(obj, parts, value, i) {
                     i++
                     let B = getCopy(objectIN, parts, value, i)
 
-                    if (B !== false) {
+                    if (B !== false && B !== undefined) {
                         i--
                         return { ...objectIN, [parts[i]]: B.content }
                     }
                     else {
-                        return B
+                        console.log('Ошибка редактирования свойсв элемента')
+                        return undefined
+                        //  return B
                     }
                 }
             }
         }
     }
-
+    let err = '';
     let itemObj = {
         ...obj, content: obj.content.map((u, key) => {
             if (key === +parts[i]) {
@@ -42,6 +44,7 @@ export default function getCopy(obj, parts, value, i) {
                     return H
                 }
                 else {
+                    err = undefined;
                     return undefined
                 }
             }
@@ -49,7 +52,7 @@ export default function getCopy(obj, parts, value, i) {
         }
         )
     }
-    if (!itemObj.content[parts[0]]) {
+    if (err === undefined) {
         return undefined
     }
     return itemObj

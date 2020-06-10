@@ -1,6 +1,8 @@
-import { combineReducers } from 'redux';
-import componentvis from './componentvis';
+import { combineReducers } from "redux";
+import content from "./content";
+
 const allReducers = combineReducers({
-    content: componentvis,
-})
+  content,
+});
+
 export default allReducers;

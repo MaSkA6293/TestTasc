@@ -1,7 +1,8 @@
-export const select = (track, value) => {
-    return {
-        type: "CHANGE_ELEMENT",
-        track: track,
-        value: value,
-    }
+export const select = (newStore) => {
+  return {
+    type: "CHANGE_ELEMENT",
+    payload: {
+      newStore,
+    },
+  };
 };

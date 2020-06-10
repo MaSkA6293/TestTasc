@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 
 import { connect } from "react-redux";
 import { select } from "../actions/index";
@@ -10,34 +10,28 @@ import "./Task.scss";
 import Content from "./Content";
 
 const Tasc = ({ select, store }) => {
-  const [track, setTrack] = useState("");
+  const [inputTrack, setInputTrack] = useState("");
   const [newvalue, setNewvalue] = useState("");
 
-  const ifTrack = (obj, parts, i) => {
+  const isSetTrack = (obj, parts, i = 0) => {
     let keys = Object.keys(obj);
     if (keys.includes(parts[i])) {
       if (i < parts.length - 1) {
-        return ifTrack(obj[parts[i]], parts, ++i);
+        return isSetTrack(obj[parts[i]], parts, ++i);
       } else
         return {
           isSet: true,
-          //   valueOfpatrtsEnd: obj[parts[i]],
           typeValueOfEnd: obj[parts[i]].type,
-        }; // typeValueOfEnd : typeof obj[parts[i]]
-    } else {
-      return false;
-    }
+          finishValueTrack: parts[parts.length - 1],
+        };
+    } else return false;
   };
 
-  const getIfIssetTrack = (obj, track) => {
-    const parts = track.replace(/(\[?)(\d+)(\]?])/g, ".$2").split(".");
-    return {
-      obj: ifTrack(obj, parts, 0),
-      parts: parts,
-    };
+  const getTrack = (track) => {
+    return track.replace(/(\[?)(\d+)(\]?])/g, ".$2").split(".");
   };
 
-  const newVal = (obj, parts, value, i) => {
+  const newVal = (obj, parts, value, i = 0) => {
     if (!Array.isArray(obj)) {
       const newObj = { ...obj };
       if (i < parts.length - 1) {
@@ -54,8 +48,6 @@ const Tasc = ({ select, store }) => {
           };
       }
       return { ...newObj, [parts[i]]: value };
-      //    newObj[parts[i]] = [...newObj[parts[i]], value];
-      //  return newObj;
     } else {
       const newObj = [...obj];
       if (i < parts.length - 1) {
@@ -73,7 +65,7 @@ const Tasc = ({ select, store }) => {
     }
   };
 
-  const newValAddInContent = (obj, parts, value, i) => {
+  const newValAddInContent = (obj, parts, value, i = 0) => {
     if (!Array.isArray(obj)) {
       const newObj = { ...obj };
       if (i < parts.length - 1) {
@@ -135,24 +127,31 @@ const Tasc = ({ select, store }) => {
         if (finishTrack === "caption") {
           return value;
         } else if (finishTrack === "content" || typeValueOfEnd === "panel") {
-          let k = value;
-          k = k.replace("type", '"type"');
-          k = k.replace("props", '"props"');
-          k = k.replace("visible", '"visible"');
-          k = k.replace("width", '"width"');
-          k = k.replace("height", '"height"');
-          k = k.replace("caption", '"caption"');
-          const regex1 = /'/g;
-          k = k.replace(regex1, '"');
-
-          // Переменная для контроля корректности данных
-          try {
-            let strtoJSON = JSON.parse(k);
-
-            return strtoJSON;
-          } catch (e) {
-            console.log("Не корректное значение в поле Новое значение", k);
-            return undefined;
+          let replaceValue = value
+            .replace("type", '"type"')
+            .replace("props", '"props"')
+            .replace("visible", '"visible"')
+            .replace("width", '"width"')
+            .replace("height", '"height"')
+            .replace("caption", '"caption"')
+            .replace(/'/g, '"');
+          let regexObj = /^{+.*}+$/;
+          if (regexObj.test(replaceValue)) {
+            try {
+              return JSON.parse(replaceValue);
+            } catch (e) {
+              console.log(
+                "Не корректное значение в поле Новое значение",
+                replaceValue
+              );
+              return undefined;
+            }
+          } else {
+            console.log(
+              "Не корректное значение в поле Новое значение",
+              replaceValue
+            );
+            return;
           }
         } else {
           return undefined;
@@ -164,11 +163,10 @@ const Tasc = ({ select, store }) => {
   const handleClick = (e) => {
     e.preventDefault();
     if (newvalue.trim()) {
-      const result = getIfIssetTrack(store, track);
-      if (result.obj.isSet) {
-        const { typeValueOfEnd } = result.obj;
-
-        const finishValueTrack = result.parts[result.parts.length - 1];
+      const track = getTrack(inputTrack);
+      const result = isSetTrack(store, track);
+      if (result.isSet) {
+        const { typeValueOfEnd, finishValueTrack } = result;
 
         const correctNewValue = getCorrectValue(
           finishValueTrack,
@@ -178,17 +176,10 @@ const Tasc = ({ select, store }) => {
 
         if (correctNewValue !== undefined) {
           if (typeof correctNewValue !== "object") {
-            const newStore = newVal(store, result.parts, correctNewValue, 0);
-            select(newStore);
+            select(newVal(store, track, correctNewValue));
           } else {
             if (finishValueTrack === "content" || typeValueOfEnd === "panel") {
-              const newStore = newValAddInContent(
-                store,
-                result.parts,
-                correctNewValue,
-                0
-              );
-              select(newStore);
+              select(newValAddInContent(store, track, correctNewValue));
               return;
             }
           }
@@ -203,25 +194,60 @@ const Tasc = ({ select, store }) => {
     }
   };
 
+  const handleRunTest2 = () => {
+    setInputTrack("content[2].props.caption");
+    setNewvalue("test2");
+  };
+  const handleRunTest3 = () => {
+    setInputTrack("content");
+    setNewvalue("{type: 'label', props: {caption: 'test', visible: true}}");
+  };
+  const handleRunTest4 = () => {
+    setInputTrack("content[0]");
+    setNewvalue(
+      "{type: 'panel' , props: {width: 200, height: 100, visible: true}}"
+    );
+  };
+  const handleRunTest5 = () => {
+    setInputTrack("content");
+    setNewvalue(
+      "{type: 'button', props: {caption: 'button test', visible: true, width:100,height:50}}"
+    );
+  };
+
   return (
-    <div className="container">
-      <form className="form">
-        <div className="form__item">
-          <label>Путь</label>
-          <input onChange={(e) => setTrack(e.target.value)} />
+    <Fragment>
+      <div className="container">
+        <form className="form">
+          <div className="form__item">
+            <label>Путь</label>
+            <input
+              onChange={(e) => setInputTrack(e.target.value)}
+              value={inputTrack}
+            />
+          </div>
+          <div className="form__item">
+            <label>Новое значение</label>
+            <input
+              onChange={(e) => setNewvalue(e.target.value)}
+              value={newvalue}
+            />
+          </div>
+          <div className="form__item">
+            <button onClick={handleClick}>Применить</button>
+          </div>
+        </form>
+        <div className="out-contaner">
+          <Content store={store} />
         </div>
-        <div className="form__item">
-          <label>Новое значение</label>
-          <input onChange={(e) => setNewvalue(e.target.value)} />
+        <div className="runTest">
+          <button onClick={handleRunTest2}>Run Test 2</button>
+          <button onClick={handleRunTest3}>Run Test 3</button>
+          <button onClick={handleRunTest4}>Run Test 4</button>
+          <button onClick={handleRunTest5}>Run Test 5</button>
         </div>
-        <div className="form__item">
-          <button onClick={handleClick}>Применить</button>
-        </div>
-      </form>
-      <div className="out-contaner">
-        <Content store={store} />
       </div>
-    </div>
+    </Fragment>
   );
 };
 

@@ -21,8 +21,8 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  width: 50,
-  height: 20,
+  width: 100,
+  height: 50,
   visible: true,
   caption: "Default Button",
 };

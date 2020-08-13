@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { select } from "../actions/index";
 
 import PropTypes from "prop-types";
 
@@ -73,8 +72,7 @@ const Content = ({ store }) => {
   return <Fragment> {getContent(store.content)}</Fragment>;
 };
 
-const mathDispathToProps = (dispatch) =>
-  bindActionCreators({ select }, dispatch);
+const mathDispathToProps = (dispatch) => bindActionCreators(dispatch);
 
 Content.propTypes = {
   store: PropTypes.object.isRequired,

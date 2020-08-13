@@ -1,8 +1,21 @@
-export const select = (newStore) => {
+import { SET_NEW_VALUE, ADD_NEW_OBJECT } from "../constants";
+
+export const newValue = (track, correctNewValue) => {
   return {
-    type: "CHANGE_ELEMENT",
+    type: SET_NEW_VALUE,
     payload: {
-      newStore,
+      track,
+      value: correctNewValue,
+    },
+  };
+};
+
+export const addNewObject = (track, correctNewValue) => {
+  return {
+    type: ADD_NEW_OBJECT,
+    payload: {
+      track,
+      value: correctNewValue,
     },
   };
 };

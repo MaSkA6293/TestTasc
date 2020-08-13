@@ -1,170 +1,90 @@
 import React, { useState, Fragment } from "react";
 
 import { connect } from "react-redux";
-import { select } from "../actions/index";
+import { newValue, addNewObject } from "../actions/index";
 import { bindActionCreators } from "redux";
 
 import PropTypes from "prop-types";
 
 import "./Task.scss";
 import Content from "./Content";
+export const getTrack = (track) => {
+  return track.replace(/(\[?)(\d+)(\]?])/g, ".$2").split(".");
+};
 
-const Tasc = ({ select, store }) => {
-  const [inputTrack, setInputTrack] = useState("");
-  const [newvalue, setNewvalue] = useState("");
+export const isSetTrack = (obj, parts, i = 0) => {
+  let keys = Object.keys(obj);
+  if (keys.includes(parts[i])) {
+    if (i < parts.length - 1) {
+      return isSetTrack(obj[parts[i]], parts, ++i);
+    } else
+      return {
+        isSet: true,
+        typeValueOfEnd: obj[parts[i]].type,
+        finishValueTrack: parts[parts.length - 1],
+      };
+  } else return false;
+};
 
-  const isSetTrack = (obj, parts, i = 0) => {
-    let keys = Object.keys(obj);
-    if (keys.includes(parts[i])) {
-      if (i < parts.length - 1) {
-        return isSetTrack(obj[parts[i]], parts, ++i);
-      } else
-        return {
-          isSet: true,
-          typeValueOfEnd: obj[parts[i]].type,
-          finishValueTrack: parts[parts.length - 1],
-        };
-    } else return false;
-  };
-
-  const getTrack = (track) => {
-    return track.replace(/(\[?)(\d+)(\]?])/g, ".$2").split(".");
-  };
-
-  const newVal = (obj, parts, value, i = 0) => {
-    if (!Array.isArray(obj)) {
-      const newObj = { ...obj };
-      if (i < parts.length - 1) {
-        let element = newObj[parts[i]];
-        if (Array.isArray(element)) {
-          return {
-            ...newObj,
-            [parts[i]]: [...newVal(element, parts, value, ++i)],
-          };
-        } else
-          return {
-            ...newObj,
-            [parts[i]]: { ...newVal(element, parts, value, ++i) },
-          };
-      }
-      return { ...newObj, [parts[i]]: value };
-    } else {
-      const newObj = [...obj];
-      if (i < parts.length - 1) {
-        let element = newObj[parts[i]];
-        if (Array.isArray(element)) {
-          return {
-            ...newObj,
-            [parts[i]]: [...newVal(element, parts, value, ++i)],
-          };
-        } else {
-          newObj[parts[i]] = { ...newVal(element, parts, value, ++i) };
-          return [...newObj];
-        }
-      }
-    }
-  };
-
-  const newValAddInContent = (obj, parts, value, i = 0) => {
-    if (!Array.isArray(obj)) {
-      const newObj = { ...obj };
-      if (i < parts.length - 1) {
-        let element = newObj[parts[i]];
-        if (Array.isArray(element)) {
-          return {
-            ...newObj,
-            [parts[i]]: [...newValAddInContent(element, parts, value, ++i)],
-          };
-        } else
-          return {
-            ...newObj,
-            [parts[i]]: { ...newValAddInContent(element, parts, value, ++i) },
-          };
-      }
-      newObj[parts[i]] = [...newObj[parts[i]], value];
-      return newObj;
-    } else {
-      const newObj = [...obj];
-      if (i < parts.length - 1) {
-        let element = newObj[parts[i]];
-        if (Array.isArray(element)) {
-          return {
-            ...newObj,
-            [parts[i]]: [...newValAddInContent(element, parts, value, ++i)],
-          };
-        } else {
-          newObj[parts[i]] = {
-            ...newValAddInContent(element, parts, value, ++i),
-          };
-          return [...newObj];
-        }
-      } else {
-        newObj[parts[i]] = {
-          ...newObj[parts[i]],
-          content: newObj[parts[i]].content
-            ? [...newObj[parts[i]].content, value]
-            : [value],
-        };
-
-        return [...newObj];
-      }
-    }
-  };
-
-  const getCorrectValue = (finishTrack, value, typeValueOfEnd) => {
-    if (finishTrack === "width" || finishTrack === "height") {
-      return Number(value)
-        ? Number(value)
+export const getCorrectValue = (finishTrack, value, typeValueOfEnd) => {
+  if (finishTrack === "width" || finishTrack === "height") {
+    return Number(value)
+      ? Number(value)
+      : console.log("Не корректное значение");
+  } else {
+    if (finishTrack === "visible") {
+      return value === "false"
+        ? false
+        : value === "true"
+        ? true
         : console.log("Не корректное значение");
     } else {
-      if (finishTrack === "visible") {
-        return value === "false"
-          ? false
-          : value === "true"
-          ? true
-          : console.log("Не корректное значение");
-      } else {
-        if (finishTrack === "caption") {
-          return value;
-        } else if (finishTrack === "content" || typeValueOfEnd === "panel") {
-          let replaceValue = value
-            .replace("type", '"type"')
-            .replace("props", '"props"')
-            .replace("visible", '"visible"')
-            .replace("width", '"width"')
-            .replace("height", '"height"')
-            .replace("caption", '"caption"')
-            .replace(/'/g, '"');
-          let regexObj = /^{+.*}+$/;
-          if (regexObj.test(replaceValue)) {
-            try {
-              return JSON.parse(replaceValue);
-            } catch (e) {
-              console.log(
-                "Не корректное значение в поле Новое значение",
-                replaceValue
-              );
-              return undefined;
-            }
-          } else {
+      if (finishTrack === "caption") {
+        return value;
+      } else if (finishTrack === "content" || typeValueOfEnd === "panel") {
+        let replaceValue = value
+          .replace("type", '"type"')
+          .replace("props", '"props"')
+          .replace("visible", '"visible"')
+          .replace("width", '"width"')
+          .replace("height", '"height"')
+          .replace("caption", '"caption"')
+          .replace(/'/g, '"');
+        let regexObj = /^{+.*}+$/;
+        if (regexObj.test(replaceValue)) {
+          try {
+            return JSON.parse(replaceValue);
+          } catch (e) {
             console.log(
               "Не корректное значение в поле Новое значение",
               replaceValue
             );
-            return;
+            return undefined;
           }
         } else {
-          return undefined;
+          console.log(
+            "Не корректное значение в поле Новое значение",
+            replaceValue
+          );
+          return;
         }
+      } else {
+        return undefined;
       }
     }
-  };
+  }
+};
+
+const Tasc = ({ store, newValue, addNewObject }) => {
+  const [inputTrack, setInputTrack] = useState("");
+  const [newvalue, setNewvalue] = useState("");
 
   const handleClick = (e) => {
     e.preventDefault();
     if (newvalue.trim()) {
       const track = getTrack(inputTrack);
       const result = isSetTrack(store, track);
+
       if (result.isSet) {
         const { typeValueOfEnd, finishValueTrack } = result;
 
@@ -176,10 +96,11 @@ const Tasc = ({ select, store }) => {
 
         if (correctNewValue !== undefined) {
           if (typeof correctNewValue !== "object") {
-            select(newVal(store, track, correctNewValue));
+            newValue(track, correctNewValue);
           } else {
             if (finishValueTrack === "content" || typeValueOfEnd === "panel") {
-              select(newValAddInContent(store, track, correctNewValue));
+              addNewObject(track, correctNewValue);
+
               return;
             }
           }
@@ -253,7 +174,6 @@ const Tasc = ({ select, store }) => {
 
 Tasc.propTypes = {
   store: PropTypes.object.isRequired,
-  select: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(store) {
@@ -263,7 +183,8 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      select,
+      newValue,
+      addNewObject,
     },
     dispatch
   );
